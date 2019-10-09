@@ -5,17 +5,65 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>OOXX Game</title>
+
     <script>
         var turn = 0;
         function SetPoint(obj) {
             if (obj.innerText == "" && turn == 0) {
                 obj.innerText = 'O';
                 turn = 1;
+                IsGameWinner();
             }
             else if (obj.innerText == "" && turn == 1) {
                 obj.innerText = 'X';
                 turn = 0;
+                IsGameWinner();
+            }
+        }
+        function IsGameWinner() {
+            var columnArray = [document.getElementById("c1"), document.getElementById("c2"), document.getElementById(
+                    "c3"),
+                document.getElementById("c4"), document.getElementById("c5"), document.getElementById("c6"),
+                document.getElementById("c7"), document.getElementById("c8"), document.getElementById("c9")
+            ];
+            if ((columnArray[0].innerHTML == "O" && columnArray[1].innerHTML == "O" && columnArray[2].innerHTML ==
+                    "O") ||
+                (columnArray[0].innerHTML == "O" && columnArray[3].innerHTML == "O" && columnArray[6].innerHTML ==
+                    "O") ||
+                (columnArray[0].innerHTML == "O" && columnArray[4].innerHTML == "O" && columnArray[8].innerHTML ==
+                    "O") ||
+                (columnArray[1].innerHTML == "O" && columnArray[4].innerHTML == "O" && columnArray[7].innerHTML ==
+                    "O") ||
+                (columnArray[2].innerHTML == "O" && columnArray[4].innerHTML == "O" && columnArray[6].innerHTML ==
+                    "O") ||
+                (columnArray[2].innerHTML == "O" && columnArray[5].innerHTML == "O" && columnArray[8].innerHTML ==
+                    "O") ||
+                (columnArray[3].innerHTML == "O" && columnArray[4].innerHTML == "O" && columnArray[5].innerHTML ==
+                    "O") ||
+                (columnArray[6].innerHTML == "O" && columnArray[7].innerHTML == "O" && columnArray[8].innerHTML == "O")
+            ) {
+                alert("Winner is O !");
+                location.reload();
+            } 
+            else if ((columnArray[0].innerHTML == "X" && columnArray[1].innerHTML == "X" && columnArray[2]
+                    .innerHTML == "X") ||
+                (columnArray[0].innerHTML == "X" && columnArray[3].innerHTML == "X" && columnArray[6].innerHTML ==
+                    "X") ||
+                (columnArray[0].innerHTML == "X" && columnArray[4].innerHTML == "X" && columnArray[8].innerHTML ==
+                    "X") ||
+                (columnArray[1].innerHTML == "X" && columnArray[4].innerHTML == "X" && columnArray[7].innerHTML ==
+                    "X") ||
+                (columnArray[2].innerHTML == "X" && columnArray[4].innerHTML == "X" && columnArray[6].innerHTML ==
+                    "X") ||
+                (columnArray[2].innerHTML == "X" && columnArray[5].innerHTML == "X" && columnArray[8].innerHTML ==
+                    "X") ||
+                (columnArray[3].innerHTML == "X" && columnArray[4].innerHTML == "X" && columnArray[5].innerHTML ==
+                    "X") ||
+                (columnArray[6].innerHTML == "X" && columnArray[7].innerHTML == "X" && columnArray[8].innerHTML == "X")
+            ) {
+                alert("Winner is X !");
+                location.reload();
             }
         }
     </script>
@@ -54,7 +102,7 @@
             </tr>
         </tbody>
     </table>
-
+    
 
 </body>
 
