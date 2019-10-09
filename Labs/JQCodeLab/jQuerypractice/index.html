@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>JQuery Labs</title>
+
+    <!-- bootstrap 4.3.1 -->
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+    <style>
+        @font-face {
+            font-family: 自訂名稱;
+            src: url('字型位置');
+        }
+    </style>
+
+    <script>
+        // doc ready
+        $(function () {
+            init();
+        });
+
+        function init() {
+            $('#Button1').click(GetBmi);
+            $('#CheckAll').click(AllClick);
+            $('#sel01').change(sel01_change);
+            $('#ImgGroup2 img').hover(Mouse_over, Mouse_out);
+            // ......
+        }
+
+        function GetBmi() {
+            var height = ($('#textHeight').val()) / 100;
+            var weight = $('#textWeight').val();
+            var bmi = weight / (height * height);
+            $('#result').html(bmi);
+            //$('#result').after(bmi);
+        }
+
+        function AllClick() {
+            var isChecked = $('#CheckAll').prop('checked');
+            if (isChecked) {
+                $('#CheckBoxGroup input').prop('checked', true);
+            }
+            else {
+                $('#CheckBoxGroup input').prop('checked', false);
+            }
+        }
+
+        function sel01_change() {
+            var val = $(this).val();
+            $('#ImgGroup2 img').removeClass();
+            $('#ImgGroup2 img').addClass(val);
+        }
+
+        function Mouse_over() {
+            $(this).css("cursor", "pointer");
+            $(this).css("transform", "scale(1.1)").css("transition-duration", "0.1s")
+        }
+
+        function Mouse_out() {
+            $(this).css("transform", "scale(1)").css("transition-duration", "0.1s")
+        }
+
+
+    </script>
+
+    <style>
+        .br15 {
+            border-radius: 15px;
+        }
+
+        .br30 {
+            border-radius: 30px;
+        }
+
+        .br50 {
+            border-radius: 50px;
+        }
+
+        #sel01 {
+            margin-bottom: 20px;
+        }
+    </style>
+
+</head>
+
+<body>
+    <div class="row" style="margin:10px">
+        <div class="col-6">
+            <h1>BMI計算(改成jQuery版本)</h1>
+            <label>身高:</label>
+            <input type="number" class="form-control" id="textHeight" value="0" />
+            <label>體重:</label>
+            <input type="number" class="form-control" id="textWeight" value="0" />
+            <br />
+            <button class="btn btn-primary" id="Button1">計算</button>
+            <br />
+            <span id="result">BMI</span>
+        </div>
+    </div>
+    <hr />
+
+    <div class="row" style="margin:10px">
+        <div class="col-12">
+            <input id="CheckAll" type="checkbox" />勾選全部
+            <div id="CheckBoxGroup">
+                <input type="checkbox" />項目1
+                <input type="checkbox" />項目2
+                <input type="checkbox" />項目3
+                <input type="checkbox" />項目4
+                <input type="checkbox" />項目5
+                <input type="checkbox" />項目6
+                <input type="checkbox" />項目7
+                <input type="checkbox" />項目8
+            </div>
+        </div>
+    </div>
+    <hr />
+
+    <div id="ImgGroup2" class="row" style="margin:10px; padding-top:100px">
+        <div class="col-12">
+            <select id="sel01">
+                <option value="br15">15px</option>
+                <option value="br30">30px</option>
+                <option value="br50">50px</option>
+            </select>
+        </div>
+
+        <div class="col-4">
+            <img src="image/1.jpg" style="width:100%" class="img-responsive" />
+        </div>
+        <div class="col-4">
+            <img src="image/2.jpg" style="width:100%" class="img-responsive" />
+        </div>
+        <div class="col-4">
+            <img src="image/3.jpg" style="width:100%" class="img-responsive" />
+        </div>
+    </div>
+</body>
+
+</html>

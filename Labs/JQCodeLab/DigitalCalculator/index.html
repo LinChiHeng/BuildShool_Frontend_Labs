@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>Digital Calculator</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script>
+
+        $(document).ready(function () {
+            init();
+        });
+        
+        function init() {
+            $('#b-equal').click(Calculate);
+            $('#b-AC').click(ClearValue);
+            $('#b-0').click(InputValue);
+            $('#b-1').click(InputValue);
+            $('#b-2').click(InputValue);
+            $('#b-3').click(InputValue);
+            $('#b-4').click(InputValue);
+            $('#b-5').click(InputValue);
+            $('#b-6').click(InputValue);
+            $('#b-7').click(InputValue);
+            $('#b-8').click(InputValue);
+            $('#b-9').click(InputValue);
+            $('#b-plus').click(InputValue);
+            $('#b-minus').click(InputValue);
+            $('#b-mult').click(InputValue);
+            $('#b-div').click(InputValue);
+            $('#b-point').click(InputValue);
+            $('#b-lc').click(InputValue);
+            $('#b-rc').click(InputValue);
+        }
+
+        function Calculate() {
+            $('.display').val(eval($('.display').val()));
+        }
+
+        function InputValue() {
+            $('.display').val($('.display').val() + $(this).val());
+        }
+
+        function ClearValue() {
+            $('.display').val('');
+        }
+
+    </script>
+    <style>
+        @font-face {
+            font-family: digital7;
+            src: url('digital-7.ttf');
+        }
+    </style>
+
+</head>
+
+<body>
+    <div class="container mt-5" style="width: 20%">
+        <input type="text" class="display form-control" name="display" style=" font-family: digital7;font-size:24px">
+    </div>
+    <div class="container w-30 mt-2 mb-2" style="width: 15%">
+        <div class="row">
+            <button class="btn btn-outline-primary col-3" id="b-AC" style="border-radius: 100%">AC</button>
+            <button class="btn btn-outline-primary col-3" id="b-lc" style="border-radius: 100%" value="(">(</button>
+            <button class="btn btn-outline-primary col-3" id="b-rc" style="border-radius: 100%" value=")">)</button>
+            <button class="btn btn-outline-primary col-3" id="b-div" style="border-radius: 100%" value="/">/</button>
+        </div>
+        <div class="row">
+            <button class="btn btn-outline-primary col-3" id="b-7" style="border-radius: 100%" value="7">7</button>
+            <button class="btn btn-outline-primary col-3" id="b-8" style="border-radius: 100%" value="8">8</button>
+            <button class="btn btn-outline-primary col-3" id="b-9" style="border-radius: 100%" value="9">9</button>
+            <button class="btn btn-outline-primary col-3" id="b-mult" style="border-radius: 100%" value="*">*</button>
+        </div>
+        <div class="row">
+            <button class="btn btn-outline-primary col-3" id="b-4" style="border-radius: 100%" value="4">4</button>
+            <button class="btn btn-outline-primary col-3" id="b-5" style="border-radius: 100%" value="5">5</button>
+            <button class="btn btn-outline-primary col-3" id="b-6" style="border-radius: 100%" value="6">6</button>
+            <button class="btn btn-outline-primary col-3" id="b-minus" style="border-radius: 100%" value="-">-</button>
+        </div>
+        <div class="row">
+            <button class="btn btn-outline-primary col-3" id="b-1" style="border-radius: 100%" value="1">1</button>
+            <button class="btn btn-outline-primary col-3" id="b-2" style="border-radius: 100%" value="2">2</button>
+            <button class="btn btn-outline-primary col-3" id="b-3" style="border-radius: 100%" value="3">3</button>
+            <button class="btn btn-outline-primary col-3" id="b-plus" style="border-radius: 100%" value="+">+</button>
+        </div>
+        <div class="row">
+            <button class="btn btn-outline-primary col-3" id="b-0" style="border-radius: 100%" value="0">0</button>
+            <button class="btn btn-outline-primary col-3" id="b-point" style="border-radius: 100%" value=".">.</button>
+            <button class="btn btn-outline-primary col-6" id="b-equal" style="border-radius: 10px">=</button>
+
+        </div>
+
+        <span id="result" style=" font-family: digital7;font-size:36px"></span>
+    </div>
+
+
+
+
+
+
+
+
+</body>
+
+</html>

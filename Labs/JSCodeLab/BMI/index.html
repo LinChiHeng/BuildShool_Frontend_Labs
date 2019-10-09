@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+     <!-- bootstrap 4.3.1 -->
+     <link rel="stylesheet"
+     href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css" />
+
+    <script>
+        function Button1_Click() {
+
+            document.getElementById('Label1').innerHTML = "BMI = " + GetBmi();
+        }
+
+        function GetBmi() {
+            var bmi = 0;
+            var height = document.getElementById('myheight').value;
+            var weight = document.getElementById('myweight').value;
+            H = height / 100;
+            bmi = weight / (H * H);
+            return bmi;
+        }
+    </script>
+    <style>
+        .input-content {
+            display: flex;
+        }
+
+        .input-content>div {
+            margin-right: 5px;
+        }
+    </style>
+</head>
+
+<body>
+    <form>
+        <div class="input-content">
+            <div>
+                <label>身高: </label>
+                <input type="number" placeholder="請輸入身高" id="myheight" name="myheight" />
+            </div>
+            <div>
+                <label>體重: </label>
+                <input type="number" placeholder="請輸入體重" id="myweight" name="myweight" />
+            </div>
+        </div>
+        <div>
+            <label id="Label1">BMI </label><br />
+            <input type="button" id="Button1" onclick="Button1_Click();" value="計算" />
+        </div>
+    </form>
+</body>
+
+</html>

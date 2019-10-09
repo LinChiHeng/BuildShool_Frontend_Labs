@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Noto+Sans+TC&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+
+    <style>
+        .card-body .form-control {
+            margin-bottom: 10px;
+        }
+
+        #signupbt {
+            float: right;
+        }
+
+        .btn-outline-primary {
+            margin-top: 10px;
+
+        }
+    </style>
+
+    <script>
+        function ShowMyModal() {
+            var isChecked = document.getElementById('MustCheck').checked;
+
+            if (isChecked) {
+                document.getElementById('Modal Heading').innerHTML = "註冊成功";
+                document.getElementById('modal-body').innerHTML = "已完成註冊!";
+                $('#myModal').modal();
+            }
+            else {
+                document.getElementById('Modal Heading').innerHTML = "錯誤訊息";
+                document.getElementById('modal-body').innerHTML = "請勾選我同意本系統使用條款!";
+                $('#myModal').modal();
+            }
+        }
+    </script>
+</head>
+
+<body>
+    <div class="row">
+        <div class="col-md-3"></div>
+        <div class="col-md-6">
+            <div class="card " style="margin-top: 50px;">
+                <div class="card-header bg-danger text-white">用戶註冊</div>
+                <div class="card-body">
+
+                    <label>帳號</label>
+                    <input type="text" class="form-control" placeholder="註冊新帳號" id="myAccount" name="myAccount" />
+
+                    <label>密碼</label>
+                    <input type="password" class="form-control" placeholder="設定新密碼" id="myNewPwd" name="myNewPwd"
+                        maxlength="12" />
+                    <label>確認密碼</label>
+                    <input type="password" class="form-control" placeholder="確認新密碼" id="myNewPwd2" name="myNewPwd2"
+                        maxlength="12" />
+                    <label>Email</label>
+                    <input type="email" class="form-control" id="myEmail" name="myEmail" />
+                    <label>生日</label>
+                    <input type="date" class="form-control" id="myBD" name="myBD" />
+                    <label>學校/公司</label>
+                    <input type="text" class="form-control" id="myWorkPlace" name="myWorkPlace" />
+                    <input type="checkbox" id="MustCheck" name="MustCheck"> 勾選我同意本系統<a href="#"
+                        style="color: blue">使用條款</a><br />
+
+
+                    <button id="buttom1" type="button" class="btn btn-outline-primary" onclick="ShowMyModal()">
+                        註冊
+                    </button>
+                    <!-- The Modal -->
+                    <div class="modal fade" id="myModal">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+
+                                <!-- Modal Header -->
+                                <div class="modal-header" id="Modal Heading">
+                                    <h4 class="modal-title"></h4>
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                </div>
+
+                                <!-- Modal body -->
+                                <div class="modal-body" id="modal-body"></div>
+
+                                <!-- Modal footer -->
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3"></div>
+    </div>
+
+
+</body>
+
+</html>
