@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Countdown Timer</title>
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Noto+Sans+TC&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+
+    <script>
+
+        $(document).ready(function () {
+            init();
+        });
+        function init() {            
+            $('#buttonruntime').click(StartTime);
+            $('#buttonruntime').click(GetTime);
+            $('#buttonstoptime').click(StopTime);
+        }        
+
+        function StartTime() {
+            isPause = false;
+        }
+        
+        function GetTime() {
+            var t = $('#timeresult').val();
+            if (t == 0) {
+                alert('Times up!');
+                return;
+            }            
+            
+            else if (isPause == false) {
+                t = t - 1;
+                $('#timeresult').val(t);
+                setTimeout(GetTime, 1000);
+            }
+        }
+
+        function StopTime() {
+            isPause = true;
+        }
+
+
+    </script>
+
+    <style>
+        @font-face {
+            font-family: digital7;
+            src: url('digital-7.ttf');
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container w-75 mt-5 mb-2">
+        <input type="text" value="" placeholder="請輸入倒數秒數" id="timeresult" style=" font-family: digital7;font-size:36px"><br/>
+        <button class="btn btn-primary mt-3" id="buttonruntime">GetTime</button>
+        <button class="btn btn-primary mt-3 ml-2" id="buttonstoptime">StopTime</button>
+    </div>
+</body>
+
+</html>
