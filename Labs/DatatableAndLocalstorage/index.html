@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>DataTable</title>
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Noto+Sans+TC&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+
+    <!-- https://datatables.net/ -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.css">
+    <script type="text/javascript" charset="utf8"
+        src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.js"></script>
+
+
+
+    <script>
+        //預設資料
+        var dat = [
+            ['Eric', '1980/1/1', '0912345678', 'eric@gmail.com', '台北市光復南路179號13樓'],
+            ['Eric', '1980/1/1', '0912345678', 'eric@gmail.com', '台北市光復南路179號13樓'],
+            ['Eric', '1980/1/1', '0912345678', 'eric@gmail.com', '台北市光復南路179號13樓'],
+            ['Eric', '1980/1/1', '0912345678', 'eric@gmail.com', '台北市光復南路179號13樓'],
+            ['Eric', '1980/1/1', '0912345678', 'eric@gmail.com', '台北市光復南路179號13樓'],
+            ['Eric', '1980/1/1', '0912345678', 'eric@gmail.com', '台北市光復南路179號13樓'],
+            ['Eric', '1980/1/1', '0912345678', 'eric@gmail.com', '台北市光復南路179號13樓'],
+            ['Eric', '1980/1/1', '0912345678', 'eric@gmail.com', '台北市光復南路179號13樓'],
+            ['Eric', '1980/1/1', '0912345678', 'eric@gmail.com', '台北市光復南路179號13樓'],
+            ['Eric', '1980/1/1', '0912345678', 'eric@gmail.com', '台北市光復南路179號13樓'],
+            ['Eric', '1980/1/1', '0912345678', 'eric@gmail.com', '台北市光復南路179號13樓'],
+            ['Eric', '1980/1/1', '0912345678', 'eric@gmail.com', '台北市光復南路179號13樓'],
+            ['Eric', '1980/1/1', '0912345678', 'eric@gmail.com', '台北市光復南路179號13樓'],
+        ];
+        //預設資料
+        var dat2 = [
+            ['Amy', '1980/1/1', '0912345678', 'eric@gmail.com', '台北市光復南路179號13樓'],
+            ['Amy', '1980/1/1', '0912345678', 'eric@gmail.com', '台北市光復南路179號13樓'],
+            ['Amy', '1980/1/1', '0912345678', 'eric@gmail.com', '台北市光復南路179號13樓'],
+            ['Amy', '1980/1/1', '0912345678', 'eric@gmail.com', '台北市光復南路179號13樓'],
+            ['Amy', '1980/1/1', '0912345678', 'eric@gmail.com', '台北市光復南路179號13樓'],
+            ['Amy', '1980/1/1', '0912345678', 'eric@gmail.com', '台北市光復南路179號13樓'],
+            ['Amy', '1980/1/1', '0912345678', 'eric@gmail.com', '台北市光復南路179號13樓'],
+            ['Amy', '1980/1/1', '0912345678', 'eric@gmail.com', '台北市光復南路179號13樓'],
+            ['Amy', '1980/1/1', '0912345678', 'eric@gmail.com', '台北市光復南路179號13樓'],
+            ['Amy', '1980/1/1', '0912345678', 'eric@gmail.com', '台北市光復南路179號13樓'],
+            ['Amy', '1980/1/1', '0912345678', 'eric@gmail.com', '台北市光復南路179號13樓'],
+            ['Amy', '1980/1/1', '0912345678', 'eric@gmail.com', '台北市光復南路179號13樓'],
+            ['Amy', '1980/1/1', '0912345678', 'eric@gmail.com', '台北市光復南路179號13樓'],
+        ];
+
+        $(document).ready(function () {
+            init();
+        });
+
+        function init() {
+            DataTable = $('#myTable').DataTable(
+                { data: dat }
+            );
+
+            $('#button2').click(Button2_Click);
+        }
+
+        function Button2_Click() {
+            Data_Refresh();
+        }
+
+        function Data_Refresh() {
+            DataTable.clear();
+            DataTable.rows.add(dat2);
+            DataTable.draw();
+        }
+
+    </script>
+
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+
+        <button type="button" id="button2" class="btn btn-outline-primary">button2</button>
+
+
+    </nav>
+
+    <div class="container mt-2">
+        <div class="row">
+            <div class="col-lg-12">
+                <table id="myTable" class="display">
+                    <thead>
+                        <tr>
+                            <th>姓名</th>
+                            <th>生日</th>
+                            <th>電話</th>
+                            <th>email</th>
+                            <th>地址</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Tiger Nixon</td>
+                            <td>System Architect</td>
+                            <td>Edinburgh</td>
+                            <td>61</td>
+                            <td>2011/04/25</td>
+                        </tr>
+                        <tr>
+                            <td>Garrett Winters</td>
+                            <td>Accountant</td>
+                            <td>Tokyo</td>
+                            <td>63</td>
+                            <td>2011/07/25</td>
+                        </tr>
+                        <tr>
+                            <td>Haley Kennedy</td>
+                            <td>Senior Marketing Designer</td>
+                            <td>London</td>
+                            <td>43</td>
+                            <td>2012/12/18</td>
+                        </tr>
+                        <tr>
+                            <td>Tatyana Fitzpatrick</td>
+                            <td>Regional Director</td>
+                            <td>London</td>
+                            <td>19</td>
+                            <td>2010/03/17</td>
+                        </tr>
+                        <tr>
+                            <td>Michael Silva</td>
+                            <td>Marketing Designer</td>
+                            <td>London</td>
+                            <td>66</td>
+                            <td>2012/11/27</td>
+                        </tr>
+                        <tr>
+                            <td>Paul Byrd</td>
+                            <td>Chief Financial Officer (CFO)</td>
+                            <td>New York</td>
+                            <td>64</td>
+                            <td>2010/06/09</td>
+                        </tr>
+                        <tr>
+                            <td>Gloria Little</td>
+                            <td>Systems Administrator</td>
+                            <td>New York</td>
+                            <td>59</td>
+                            <td>2009/04/10</td>
+                        </tr>
+                        <tr>
+                            <td>Bradley Greer</td>
+                            <td>Software Engineer</td>
+                            <td>London</td>
+                            <td>41</td>
+                            <td>2012/10/13</td>
+                        </tr>
+                        <tr>
+                            <td>Dai Rios</td>
+                            <td>Personnel Lead</td>
+                            <td>Edinburgh</td>
+                            <td>35</td>
+                            <td>2012/09/26</td>
+                        </tr>
+                        <tr>
+                            <td>Jenette Caldwell</td>
+                            <td>Development Lead</td>
+                            <td>New York</td>
+                            <td>30</td>
+                            <td>2011/09/03</td>
+                        </tr>
+                        <tr>
+                            <td>Yuri Berry</td>
+                            <td>Chief Marketing Officer (CMO)</td>
+                            <td>New York</td>
+                            <td>40</td>
+                            <td>2009/06/25</td>
+                        </tr>
+                        <tr>
+                            <td>Caesar Vance</td>
+                            <td>Pre-Sales Support</td>
+                            <td>New York</td>
+                            <td>21</td>
+                            <td>2011/12/12</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>
