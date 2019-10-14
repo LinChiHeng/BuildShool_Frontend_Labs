@@ -128,7 +128,9 @@
         }
 
         function DeleteItem(item) {
+            //找到當前筆數
             var n = dat.indexOf(item);
+            //刪除該筆資料
             dat.splice(n, 1);
             
             Data_Refresh();
@@ -145,9 +147,9 @@
                 ];
             //找到當前筆數
             var n = dat.indexOf(CurrentEditItem);
-            //置換
+            //置換data
             dat[n] = NewItem;
-            //refresh data table
+            
             Data_Refresh();
             Data_Save();
         }
