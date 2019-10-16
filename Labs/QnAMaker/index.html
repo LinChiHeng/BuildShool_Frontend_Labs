@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!doctype html>
+    <html lang="en">
+
+    <head>
+        <title>對談機器人</title>
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+        <link rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css" />
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+        <link href="https://fonts.googleapis.com/css?family=Noto+Sans+TC&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css">
+        <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+
+
+        <script>
+            $(document).ready(function () {
+                init();
+            });
+
+            function init() {
+                $('#ButtonSend').click(ButtonSend);
+                $('#inputText').keypress(function (e) {
+                    if (e.keyCode == 13) {
+                        ButtonSend();
+                        return false;
+                    }
+                });
+            }
+
+            //取得答案，並執行whenSuccess
+            //whenSuccess:傳入function作為參數
+            function GetAnswer(msg, whenSuccess) {
+                $.ajax({
+                    type: "post",
+                    headers: {
+                        "Authorization": "EndpointKey 3f380b88-a336-46a8-8fed-d35412b81cb4",
+                        "Content-Type": "application/json"
+                    },
+                    url: "https://bot1016.azurewebsites.net/qnamaker/knowledgebases/b85f2630-1e35-4c2d-aa04-b9ac71d1829c/generateAnswer",
+                    data: JSON.stringify({
+                        "question": $('#inputText').val()
+                    }),
+                    data: JSON.stringify({ "question": msg }),
+                    dataType: "json",
+                    success: whenSuccess,
+                    error: function (err) {
+                        //如果有錯
+                    }
+                });
+            }
+
+            function whenSuccess(ret) {
+                    //如果ok
+                    //show user Says...
+                    let html = $('#TalkContainer').html();
+                    $('#TalkContainer').html(html + '<br /><br />客服 : ' + ret.answers[0].answer);
+                    //scroll to bottom
+                    $('#TalkContainer').scrollTop($('#TalkContainer')[0].scrollHeight);
+                }
+
+            function ButtonSend() {
+                var html = $('#TalkContainer').html();
+                var UserSay = $('#inputText').val();
+                //clean
+                $('#inputText').val('');
+                //show user Says...
+                $('#TalkContainer').html(html + '<br /><br />用戶 : ' + UserSay);
+                //scroll to bottom
+                $('#TalkContainer').scrollTop($('#TalkContainer')[0].scrollHeight);
+                //取得答案...
+                GetAnswer(UserSay, whenSuccess);
+            }
+
+
+        </script>
+    </head>
+
+<body>
+    <div class="row" style="margin: 10px">
+        <div class="col-2"></div>
+        <div class="col-8">
+            <!-- 卡片  -->
+            <div class="card">
+                <!-- 卡片標題 -->
+                <span class="card-header bg-primary" style="color:white">
+                    對談機器人
+                </span>
+                <!-- 卡片內容 -->
+                <div class="card-body">
+                    <!-- 對談區 -->
+                    <div id="TalkContainer" style="overflow: auto; height: 300px;">
+                    </div>
+                </div>
+            </div>
+            <form class="form-inline card-footer bg-light">
+                <input id="inputText" class="form-control" style="width:88%">
+                <button type="button" id="ButtonSend" class="btn btn-primary ml-1">送出</button>
+            </form>
+        </div>
+        <div class="col-2"></div>
+</body>
+
+</html>
