@@ -59,6 +59,12 @@
             }
 
             function whenSuccess(ret) {
+                if (ret.answers[0].answer == "No good match found in KB.") {
+                    let html = $('#TalkContainer').html();
+                    $('#TalkContainer').html(html + '<br /><br />客服 : ' + '抱歉聽不懂您的問題');
+                    $('#TalkContainer').scrollTop($('#TalkContainer')[0].scrollHeight);
+                }
+                else {
                     //如果ok
                     //show user Says...
                     let html = $('#TalkContainer').html();
@@ -66,6 +72,7 @@
                     //scroll to bottom
                     $('#TalkContainer').scrollTop($('#TalkContainer')[0].scrollHeight);
                 }
+            }
 
             function ButtonSend() {
                 var html = $('#TalkContainer').html();
@@ -79,7 +86,6 @@
                 //取得答案...
                 GetAnswer(UserSay, whenSuccess);
             }
-
 
         </script>
     </head>

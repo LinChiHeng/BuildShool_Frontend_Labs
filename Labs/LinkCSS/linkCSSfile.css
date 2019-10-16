@@ -1,21 +1,22 @@
 #table1 {
-    width: 400px;
-    border: 3px solid green;
-    border-collapse: collapse;
+  width: 400px;
+  border: 3px solid green;
+  border-collapse: collapse;
 }
 
 td,
 th {
-    border: 1px solid red;
-    padding: 4px;
-    text-align: center;
-    vertical-align: bottom;
+  border: 1px solid red;
+  padding: 4px;
+  text-align: center;
+  vertical-align: bottom;
 }
 
 tbody tr:nth-child(2n) {
-    background-color: yellow
+  background-color: yellow;
 }
 
 tbody tr:nth-child(2n+1) {
-    background-color: silver
+  background-color: silver;
 }
+/*# sourceMappingURL=linkCSSfile.css.map */
