@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <!--<link rel="icon" href="../../favicon.ico">-->
+
+  <title>Life number</title>
+
+
+  <!-- Bootstrap core CSS -->
+  <link href="stylesheets/bootstrap.min.css" rel="stylesheet">
+
+  <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+  <!--<link href="../../assets/css/ie10-viewport-bug-workaround.css" rel="stylesheet">-->
+
+  <!-- Custom styles for this template -->
+  <link href="stylesheets/dashboard.css" rel="stylesheet">
+
+  <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
+  <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+  <!--<script src="../../assets/js/ie-emulation-modes-warning.js"></script>-->
+
+  <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+  <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+
+  <script>
+    $(document).ready(function () {
+      init();
+    });
+
+    function init() {
+      $('#analysis').click(getResult);
+
+    }
+
+    function getResult(response) {
+      var birthday = $('#dateinput').val();
+      date = getDate(birthday);
+      console.log(`date = ${date}`);
+
+      lifenumber = getLifeNumber(date);
+      console.log(`lifenumber = ${lifenumber}`);
+
+      constellation = getConstellation(birthday);
+      console.log(`constellation = ${constellation}`);
+
+      $.ajax({
+        type: "Get",
+        url: `https://buildschoolnumerology.azurewebsites.net/api/Number/Numerology?constellation=${constellation}`,
+        dataType: "json",
+        success: function (response) {
+          var target = document.getElementById('analysisresult');
+          var newinfo = document.createElement("li");
+          newinfo.classList.add("list-group-item");
+          newinfo.innerHTML = `<span class="label label-primary">${birthday}</span>
+           出生的你，星座是 ${response.name}<br/>你的生命靈數: ${lifenumber}<br/> ${response.lookup[lifenumber - 1]}`;
+
+          console.log(`分析結果:${newinfo.innerHTML}`)
+          target.appendChild(newinfo);
+        }
+      });
+
+    }
+
+    /*function addResultText(response) {
+      var target = document.getElementById('analysisresult');
+      var newinfo = document.createElement("li");
+      newinfo.classList.add("list-group-item");
+      newinfo.innerHTML = `<span class="label label-primary">${birthday}</span> 出生的你，星座是 ${response.name}<br/>
+      你的生命靈數:<br/> ${response.lookup[lifenumber]} `;
+    }*/
+
+    function getDate(birthday) {
+      var d = new Date(birthday);
+      var year = d.getFullYear();
+      var month = d.getMonth() + 1; //getMonth()回傳0~11，所以要+1
+      var day = d.getDate();
+      if (month < 10) {
+        month = "0" + month;
+      }
+      if (day < 10) {
+        day = "0" + day;
+      }
+      var date = `${year}${month}${day}`;
+      return date;
+    }
+
+    function getLifeNumber(date) {
+      var lifenumber = 0;
+      date = date.toString();
+      for (let i = 0; i < date.length; i++) {
+        lifenumber += Number(date[i]);
+      }
+      //console.log(lifenumber);
+      while (lifenumber > 9) {
+        var n = 0;
+        lifenumber = lifenumber.toString();
+        for (let j = 0; j < lifenumber.length; j++) {
+          n += Number(lifenumber[j]);
+        }
+        lifenumber = n;
+        //console.log(lifenumber);
+      }
+      return lifenumber;
+    }
+
+    function getConstellation(birthday) {
+      var d = new Date(birthday);
+      var month = d.getMonth() + 1; //getMonth()回傳0~11，所以要+1
+      var day = d.getDate();
+      //console.log(`Month:${month},Day:${day}`);
+      var constellation = "";
+      if ((month == 3 && day >= 21) || (month == 4 && day <= 19)) {
+        constellation = "aries";//牡羊座
+      }
+      if ((month == 4 && day >= 20) || (month == 5 && day <= 20)) {
+        constellation = "taurus";//金牛座
+      }
+      if ((month == 5 && day >= 21) || (month == 6 && day <= 21)) {
+        constellation = "gemini";//雙子座
+      }
+      if ((month == 6 && day >= 22) || (month == 7 && day <= 22)) {
+        constellation = "cancer";//巨蟹座
+      }
+      if ((month == 7 && day >= 23) || (month == 8 && day <= 22)) {
+        constellation = "leo";//獅子座
+      }
+      if ((month == 8 && day >= 23) || (month == 9 && day <= 22)) {
+        constellation = "virgo";//處女座
+      }
+      if ((month == 9 && day >= 23) || (month == 10 && day <= 23)) {
+        constellation = "libra";//天秤座
+      }
+      if ((month == 10 && day >= 24) || (month == 11 && day <= 22)) {
+        constellation = "scorpio";//天蠍座
+      }
+      if ((month == 11 && day >= 23) || (month == 12 && day <= 21)) {
+        constellation = "sagittarius";//射手座
+      }
+      if ((month == 12 && day >= 22) || (month == 1 && day <= 19)) {
+        constellation = "capricorn";//摩羯座
+      }
+      if ((month == 1 && day >= 20) || (month == 2 && day <= 18)) {
+        constellation = "aquarius";//水瓶座
+      }
+      if ((month == 2 && day >= 19) || (month == 3 && day <= 20)) {
+        constellation = "pisces";//雙魚座
+      }
+      return constellation;
+    }
+
+    /*
+
+
+
+    function getword() {
+                getbirth();
+                var ansstring = "https://buildschoolnumerology.azurewebsites.net/api/Number/Numerology?constellation=" +
+                    startans;
+                $.ajax({
+                    type: "Get", //http verb
+                    url: ansstring,
+                    dataType: "json",
+                    success: function (response) {
+                        gettext(response);
+                        console.log("aaa", response)
+                    }
+                });
+            }
+
+            function getbirth() {
+                var stri2 = $("#datepicker").val();
+                console.log("bir", stri2)
+                var month = stri2[0] + stri2[1];
+                var day = stri2[3] + stri2[4];
+                if (month == 03 && day >= 21 || month == 04 && day <= 19) {
+                    startans = "aries";
+                }
+                if (month == 04 && day >= 20 || month == 05 && day <= 20) {
+                    startans = "taurus";
+                }
+                if (month == 05 && day >= 21 || month == 06 && day <= 21) {
+                    startans = "gemini";
+                }
+                if (month == 06 && day >= 22 || month == 07 && day <= 22) {
+                    startans = "cancer";
+                }
+                if (month == 07 && day >= 23 || month == 08 && day <= 22) {
+                    startans = "leo";
+                }
+                if (month == 08 && day >= 23 || month == 09 && day <= 22) {
+                    startans = "virgo";
+                }
+                if (month == 09 && day >= 23 || month == 10 && day <= 23) {
+                    startans = "libra";
+                }
+                if (month == 10 && day >= 24 || month == 11 && day <= 22) {
+                    startans = "scorpio";
+                }
+                if (month == 11 && day >= 23 || month == 12 && day <= 21) {
+                    startans = "sagittarius";
+                }
+                if (month == 12 && day >= 22 || month == 01 && day <= 19) {
+                    startans = "capricorn";
+                }
+                if (month == 01 && day >= 20 || month == 02 && day <= 18) {
+                    startans = "aquarius";
+                }
+                if (month == 02 && day >= 19 || month == 03 && day <= 20) {
+                    startans = "pisces";
+                }
+            }
+
+            function gettext(response) {
+                var li = document.createElement("span");
+                li.className = "list-group-item";
+                li.innerHTML = "<span>" + $("#datepicker").val() + "出生的你,星座是 : </span>" + "<span>" + response.name +
+                    "</span>" + "<br>" + "<span>你的生命靈數 :" + sum + " </span>" + "<br>" + "<span>" + response.lookup[sum] +
+                    "</span>";
+                document.getElementById("showDateBox").appendChild(li);
+            }
+    */
+
+
+  </script>
+</head>
+
+<body>
+
+  <nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+          aria-expanded="false" aria-controls="navbar">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="#">Project name</a>
+      </div>
+      <div id="navbar" class="navbar-collapse collapse">
+        <ul class="nav navbar-nav navbar-right">
+          <li><a href="#">Dashboard</a></li>
+          <li><a href="#">Settings</a></li>
+          <li><a href="#">Profile</a></li>
+          <li><a href="#">Help</a></li>
+        </ul>
+        <form class="navbar-form navbar-right">
+          <input type="text" class="form-control" placeholder="Search...">
+        </form>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-sm-3 col-md-2 sidebar">
+        <ul class="nav nav-sidebar">
+          <li class="active"><a href="#">Overview <span class="sr-only">(current)</span></a></li>
+          <li><a href="#">Reports</a></li>
+          <li><a href="#">Analytics</a></li>
+          <li><a href="#">Export</a></li>
+        </ul>
+        <ul class="nav nav-sidebar">
+          <li><a href="">Nav item</a></li>
+          <li><a href="">Nav item again</a></li>
+          <li><a href="">One more nav</a></li>
+          <li><a href="">Another nav item</a></li>
+          <li><a href="">More navigation</a></li>
+        </ul>
+        <ul class="nav nav-sidebar">
+          <li><a href="">Nav item again</a></li>
+          <li><a href="">One more nav</a></li>
+          <li><a href="">Another nav item</a></li>
+        </ul>
+      </div>
+      <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="input-group">
+                <input id="dateinput" type="date" name="" class="form-control" value="" required="required">
+                <span class="input-group-btn">
+                  <a id="analysis" type="button" class="btn btn-primary">分析結果</a>
+                </span>
+              </div>
+
+              <ul id="analysisresult" class="list-group">
+
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+
+  <!-- Bootstrap core JavaScript
+    ================================================== -->
+  <!-- Placed at the end of the document so the pages load faster -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <!--<script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>-->
+  <script src="scripts/bootstrap.min.js"></script>
+  <!-- Just to make our placeholder images work. Don't actually copy the next line! -->
+  <!--<script src="../../assets/js/vendor/holder.min.js"></script>-->
+  <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+  <!--<script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>-->
+  <script>
+  </script>
+</body>
+
+</html>
