@@ -53,7 +53,14 @@
                     pool.push(i + 1);
                 return pool;
             }
-            
+            setWinSolution();
+            function setWinSolution() {
+                var win = "";
+                for (let i = 0; i < 16; i++) {
+                    win +=(i + ":" +getNearPos(i).toString());
+                    console.log(`win:${win}`)
+                }
+            }
             //點選動作
             $(".PicCell").click(function () {
                 //找尋上下左右有沒有Pic0，有則可以與它交換位置
