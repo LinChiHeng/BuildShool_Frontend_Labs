@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Puzzle-4x4</title>
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Noto+Sans+TC&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+
+
+    <script>
+        $(document).ready(function () {
+            init();
+        });
+
+
+
+
+
+        
+
+
+
+        function init() {
+            //將位置轉成座標的換算表
+            var posConv = {};
+            var process = new Array();//紀錄拼圖行走過程
+            //填入16張圖
+            for (var i = 0; i < 16; i++) {
+                $("#dvPuzzle").append("<div class='PicCell' id='Pic" + i + "'><img src='images/picture3.jpg' /></div>");
+                var row = parseInt(i / 4);
+                var col = i % 4;
+                $("#Pic" + i + " img").css("margin-left", col * -120 + 1).css("margin-top", row * -120 + 1);
+                //第i個換成第row列第col行
+                posConv[i] = { row: row, col: col };
+            }
+            //將左上角圖塊移除
+            $("#Pic0 img").remove();
+            //取得四周相鄰的位置
+            function getNearPos(i) {
+                var pool = [];
+                var row = posConv[i].row, col = posConv[i].col;
+                //toCheck用來放入待比對的對象
+                if (row > 0) //上
+                    pool.push((row - 1) * 4 + col);
+                if (row < 4) //下
+                    pool.push((row + 1) * 4 + col);
+                if (col > 0) //左
+                    pool.push(i - 1);
+                if (col < 4) //右
+                    pool.push(i + 1);
+                return pool;
+            }
+            //點選動作
+            $(".PicCell").click(function () {
+                //找尋上下左右有沒有Pic0，有則可以與它交換位置
+                //先找出元素是16個中第幾個?
+                var cells = $("#dvPuzzle div");
+                var i = cells.index(this);
+                var toCheck = getNearPos(i);
+                while (toCheck.length > 0) {
+                    var j = toCheck.pop();
+                    if (cells.eq(j).attr("id") == "Pic0") //為空白格，交換位子
+                    {
+                        //排序，必要時對調，讓i < j
+                        if (i > j) { var k = j; j = i; i = k; }
+                        var ahead = cells.eq(i);
+                        var behind = cells.eq(j);
+                        var behindPrev = behind.prev();
+                        //左右對調
+                        if (Math.abs(i - j) == 1){
+                            behind.after(ahead);
+                            process.push(`${i}${j}`);
+                            console.log(process);
+                        }  
+                        //上下對調
+                        else{                        
+                            ahead.after(behind);
+                            behindPrev.after(ahead);
+                            process.push(`${i}${j}`);
+                            console.log(process);
+                        }
+                        break;
+                    }
+                }
+            });
+
+        }
+
+
+
+       
+        
+        var i = 0;//i = process.length;
+        var times = 100;//拼圖隨機方法次數參數
+
+
+
+
+        function changePosition(P1, P2) {
+            process.push(`${P1}${P2}`);
+            i = process.length;
+            console.log(process);
+            var temp = document.getElementById(P1).className;
+            document.getElementById(P1).className = document.getElementById(P2).className;
+            document.getElementById(P2).className = temp;
+        }
+
+        function return_Click() {
+            if (i == 0) {
+
+                return;
+            }
+
+            i--;
+            invercePosition(i);
+            setTimeout(return_Click, 300);
+        }
+
+        function invercePosition(i) {
+            var part1 = `${process[i][3]}${process[i][4]}${process[i][5]}`;
+            var part2 = `${process[i][0]}${process[i][1]}${process[i][2]}`;
+            var temp = document.getElementById(part1).className;
+            document.getElementById(part1).className = document.getElementById(part2).className;
+            document.getElementById(part2).className = temp;
+        }
+
+
+
+        /*function start_Click() {
+            process = new Array();
+            for (let row = 1; row <= 3; row++) {
+                for (let column = 1; column <= 3; column++) {
+                    var row2 = Math.floor(Math.random() * 3 + 1);
+                    var column2 = Math.floor(Math.random() * 3 + 1);
+                    changePosition(`P${row}${column}`, `P${row}${column2}`);
+                }
+            }
+        }*/
+
+        function start_Random() {
+            if (times == 0) {
+                console.log(`times = ${times}`);
+                return;
+            }
+
+            times--;
+            var rowindex = Math.floor(Math.random() * 3 + 1);
+            var colindex = Math.floor(Math.random() * 3 + 1);
+            Position_Click(rowindex, colindex);
+            setTimeout(start_Random, 10);
+        }
+
+        function Position_Click(row, column) {
+            var P = document.getElementById(`P${row}${column}`);
+            var Position = P.className;
+            if (Position != "Position9") {
+                //若是空白處在上面
+                if (row > 1) {
+                    if (document.getElementById(`P${row - 1}${column}`).className == "Position9") {
+                        changePosition(`P${row}${column}`, `P${row - 1}${column}`);
+                        return;
+                    }
+                }
+                //C若是空白處在下面
+                if (row < 3) {
+                    if (document.getElementById(`P${row + 1}${column}`).className == "Position9") {
+                        changePosition(`P${row}${column}`, `P${row + 1}${column}`);
+                        return;
+                    }
+                }
+                //若是空白處在左邊
+                if (column > 1) {
+                    if (document.getElementById(`P${row}${column - 1}`).className == "Position9") {
+                        changePosition(`P${row}${column}`, `P${row}${column - 1}`);
+                        return;
+                    }
+                }
+                //若是空白處在右邊
+                if (column < 3) {
+                    if (document.getElementById(`P${row}${column + 1}`).className == "Position9") {
+                        changePosition(`P${row}${column}`, `P${row}${column + 1}`);
+                        return;
+                    }
+                }
+            }
+
+        }
+        function restart() {
+            times = 100;
+            process = new Array();
+        }
+
+        function judge_Win() {
+            if (document.getElementById('P11').className == 'Position1' &&
+                document.getElementById('P12').className == 'Position2' &&
+                document.getElementById('P13').className == 'Position3' &&
+                document.getElementById('P21').className == 'Position4' &&
+                document.getElementById('P22').className == 'Position5' &&
+                document.getElementById('P23').className == 'Position6' &&
+                document.getElementById('P31').className == 'Position7' &&
+                document.getElementById('P32').className == 'Position8' &&
+                document.getElementById('P33').className == 'Position9') {
+                alert("You Win !!");
+            }
+        }
+    </script>
+
+    <style>
+        #dvPuzzle {
+            width: 480px;
+            height: 480px;
+            border: solid 3px blue;
+            padding: 0px;
+        }
+
+        .PicCell {
+            width: 118px;
+            height: 118px;
+            border-top: solid 1px white;
+            border-left: solid 1px white;
+            border-right: solid 1px gray;
+            border-bottom: solid 1px gray;
+            float: left;
+            overflow: hidden;
+        }
+    </style>
+</head>
+
+
+
+
+<body>
+    <div id="dvPuzzle"></div>
+    <div class="row mt-5">
+        <div class="col">
+            <button type="button" name="" id="ButtonStart" class="btn btn-primary">
+                開始
+            </button>
+            <button type="button" name="" id="ButtonReturn" class="btn btn-primary">
+                復原成原圖
+            </button>
+        </div>
+    </div>
+</body>
+
+</html>

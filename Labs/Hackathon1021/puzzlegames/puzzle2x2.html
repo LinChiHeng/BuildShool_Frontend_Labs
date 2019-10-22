@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Puzzle-2x2</title>
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Noto+Sans+TC&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+
+
+    <script>
+        $(document).ready(function () {
+            init();            
+        });
+
+        function init() {            
+            $('#ButtonStart').click(restart);
+            $('#ButtonStart').click(start_Random);
+            $('#ButtonReturn').click(return_Click);
+            $('#P11').click(judge_Win);
+            $('#P12').click(judge_Win);            
+            $('#P21').click(judge_Win);
+            $('#P22').click(judge_Win);
+            
+        }
+        var process = new Array();//紀錄拼圖行走過程
+        var i = 0;//i = process.length;
+        var times = 20;//拼圖隨機方法次數參數
+
+        
+
+
+        function changePosition(P1, P2) {
+            process.push(`${P1}${P2}`);
+            i = process.length;
+            console.log(process);
+            var temp = document.getElementById(P1).className;
+            document.getElementById(P1).className = document.getElementById(P2).className;
+            document.getElementById(P2).className = temp;
+        }
+
+        function return_Click() {
+            if (i == 0) {
+
+                return;
+            }
+
+            i--;
+            invercePosition(i);
+            setTimeout(return_Click, 300);
+        }
+
+        function invercePosition(i) {
+            var part1 = `${process[i][3]}${process[i][4]}${process[i][5]}`;
+            var part2 = `${process[i][0]}${process[i][1]}${process[i][2]}`;
+            var temp = document.getElementById(part1).className;
+            document.getElementById(part1).className = document.getElementById(part2).className;
+            document.getElementById(part2).className = temp;
+        }
+
+
+
+        
+        function start_Random() {
+            if (times == 0) {
+                console.log(`times = ${times}`);
+                return;
+            }
+
+            times--;
+            var rowindex = Math.floor(Math.random() * 2 + 1);
+            var colindex = Math.floor(Math.random() * 2 + 1);
+            Position_Click(rowindex, colindex);
+            setTimeout(start_Random, 10);
+        }
+
+        function Position_Click(row, column) {
+            var P = document.getElementById(`P${row}${column}`);
+            var Position = P.className;
+            if (Position != "Position4") {
+                //若是空白處在上面
+                if (row > 1) {
+                    if (document.getElementById(`P${row - 1}${column}`).className == "Position4") {
+                        changePosition(`P${row}${column}`, `P${row - 1}${column}`);
+                        return;
+                    }
+                }
+                //C若是空白處在下面
+                if (row < 2) {
+                    if (document.getElementById(`P${row + 1}${column}`).className == "Position4") {
+                        changePosition(`P${row}${column}`, `P${row + 1}${column}`);
+                        return;
+                    }
+                }
+                //若是空白處在左邊
+                if (column > 1) {
+                    if (document.getElementById(`P${row}${column - 1}`).className == "Position4") {
+                        changePosition(`P${row}${column}`, `P${row}${column - 1}`);
+                        return;
+                    }
+                }
+                //若是空白處在右邊
+                if (column < 2) {
+                    if (document.getElementById(`P${row}${column + 1}`).className == "Position4") {
+                        changePosition(`P${row}${column}`, `P${row}${column + 1}`);
+                        return;
+                    }
+                }
+            }
+
+        }
+        function restart(){
+            times = 20;
+            process = new Array();
+        }
+
+        function judge_Win() {
+            if (document.getElementById('P11').className == 'Position1' &&
+                document.getElementById('P12').className == 'Position2' &&
+                document.getElementById('P21').className == 'Position3' &&
+                document.getElementById('P22').className == 'Position4') {
+                alert("You Win !!");
+            }
+        }
+    </script>
+
+    <style>
+        .Position1,
+        .Position2,
+        .Position3,
+        .Position4{
+            display: table-cell;
+            width: 180px;
+            height: 180px;
+            border: 1px solid #777777;
+            background-image: url('images/picture1.jpg');
+            cursor: pointer;
+
+        }
+
+        .Position1 {
+            background-position: left top;
+        }
+
+        .Position2 {
+            background-position: right top;
+        }
+
+        .Position3 {
+            background-position: left bottom;
+        }
+
+        .Position4 {
+            background: white;
+            cursor: default;
+        }
+
+    </style>
+</head>
+<body>
+<div id="table" style="display: table;">
+    <div id="row1" style="display: table-row;">
+        <div id="P11" class="Position1" onClick="Position_Click(1, 1);"></div>
+        <div id="P12" class="Position2" onClick="Position_Click(1, 2);"></div>        
+    </div>
+    <div id="row2" style="display: table-row;">
+        <div id="P21" class="Position3" onClick="Position_Click(2, 1);"></div>
+        <div id="P22" class="Position4" onClick="Position_Click(2, 2);"></div>        
+    </div>
+    
+</div>
+<div class="row mt-5">
+    <div class="col">
+        <button type="button" name="" id="ButtonStart" class="btn btn-primary">
+            開始
+        </button>
+        <button type="button" name="" id="ButtonReturn" class="btn btn-primary">
+            復原成原圖
+        </button>
+    </div>
+</div>
+
+
+
+
+</body>
+
+</html>
