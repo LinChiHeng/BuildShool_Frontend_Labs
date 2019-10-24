@@ -25,7 +25,8 @@
             //將位置轉成座標的換算表
             var posConv = {};
             var process = new Array();//紀錄拼圖行走過程
-            var times = 50;//random幾次
+            var times = 100;//random幾次
+            var winstatus = [];
             //填入16張圖
             for (var i = 0; i < 16; i++) {
                 $("#dvPuzzle").append("<div class='PicCell' id='Pic" + i + "'><img src='images/picture3.jpg' /></div>");
@@ -34,7 +35,8 @@
                 $("#Pic" + i + " img").css("margin-left", col * -120 + 1).css("margin-top", row * -120 + 1);
                 //第i個換成第row列第col行
                 posConv[i] = { row: row, col: col };
-                
+                winstatus[i] = `Pic${i}`;
+
             }
             //將左上角圖塊移除
             $("#Pic0 img").remove();
@@ -85,8 +87,11 @@
                         break;
                     }
                 }
+                
             });
             $('#ButtonStart').click(random_Move);
+            $('#ButtonWin').click(checkWinStatus);
+            
 
             function random_Move() {
                 if (times == 0) {
@@ -121,7 +126,19 @@
                 console.log(process);
             }
 
+            function checkWinStatus() {                
+                let check = [];
+                for (let i = 0; i < $('.PicCell').length; i++) {
+                    check.push($('.PicCell')[i]['id']);
+                }                
 
+                if (check.toString() == winstatus.toString()) {
+                    alert("恭喜完成!!");
+                }
+                else{
+                    alert("尚未完成~繼續加油喔!!");
+                }
+            }
         }
 
 
@@ -159,8 +176,8 @@
             <button type="button" name="" id="ButtonStart" class="btn btn-primary">
                 開始
             </button>
-            <button type="button" name="" id="ButtonReturn" class="btn btn-primary">
-                復原成原圖
+            <button type="button" name="" id="ButtonWin" class="btn btn-primary">
+                檢查是否完成
             </button>
         </div>
     </div>
