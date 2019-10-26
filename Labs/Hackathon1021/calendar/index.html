@@ -17,6 +17,7 @@
 
 
     <script>
+        var scheduleTasks = [];
         var today = new Date();
         var currentMonth = today.getMonth();
         var currentYear = today.getFullYear();
@@ -28,9 +29,31 @@
         });
 
         function init() {
-            generate_Calendar(currentMonth,currentYear);
+            generate_Calendar(currentMonth, currentYear);
+            Data_Load();
             $('#previous').click(previous);
             $('#next').click(next);
+            $('#ButtonAddTask').click(addTaskItems);
+            $('#ButtonDelete').click(ButtonDelete_Click);
+
+            $('#calendar-body').on('click', 'td', function () {
+                var CurrentEditItem = [];
+                
+
+                for (let i = 0; i < scheduleTasks.length; i++) {
+                    if (scheduleTasks[i][0] == this.id) {
+                        CurrentEditItem.push(scheduleTasks[i][1]);
+                    }
+                }
+                
+                console.log(this.id);
+                console.log(CurrentEditItem);
+                
+                $('#ModalEdit').modal();
+                $('#EditField_Date').val(this.id);
+                $('#EditField_Task').val(CurrentEditItem);
+                
+            });
 
         }
 
@@ -45,7 +68,7 @@
 
             // filing data about month and in the page via DOM.
             $("#monthAndYear").html(`${months[month]} ${year}`);
-            
+
 
             // creating all cells
             let date = 1;
@@ -68,6 +91,7 @@
                     else {
                         let cell = document.createElement("td");
                         let cellText = document.createTextNode(date);
+                        cell.id = `${year}${months[month]}${date}`;
                         if (date === today.getDate() && year === today.getFullYear() && month === today.getMonth()) {
                             cell.classList.add("bg-info");
                         } // color today's date
@@ -85,10 +109,10 @@
         }
 
         function next() {
-            if(currentMonth === 11){
+            if (currentMonth === 11) {
                 currentYear = currentYear + 1;
             }
-            else{
+            else {
                 currentYear = currentYear;
             }
             currentMonth = (currentMonth + 1) % 12;
@@ -97,17 +121,98 @@
 
         function previous() {
             if (currentMonth === 0) {
-                currentYear = currentYear - 1; 
+                currentYear = currentYear - 1;
                 currentMonth = 11;
             }
-            else{
+            else {
                 currentYear = currentYear;
                 currentMonth = currentMonth - 1;
-            }            
+            }
             generate_Calendar(currentMonth, currentYear);
         }
 
+
+        function addTaskItems() {
+            var date = new Date($('#field_Date').val());
+            var thisYear = date.getFullYear();
+            var thisMonth = months[date.getMonth()];
+            var thisDay = date.getDate();
+            var thisID = `${thisYear}${thisMonth}${thisDay}`;
+
+            var thisTask = $('#field_Task').val();
+
+            var scheduleItems = [thisID, thisTask];
+            scheduleTasks.push(scheduleItems);
+            console.log(scheduleTasks);
+            Data_Add(thisID, thisTask)
+            Data_Save();
+
+            $('#field_Date').val('');
+            $('#field_Task').val('');
+
+        }
+
+        function Data_Add(thisID, thisTask) {
+            $(`#${thisID}`).append(`<br/>${thisTask}`);
+        }
+
+        function Data_Save() {
+            var str = JSON.stringify(scheduleTasks);
+            localStorage.setItem('CalendarTasks', str);
+        }
+
+        function Data_Load() {
+            if (localStorage.getItem('CalendarTasks') != null) {
+                var str = localStorage.getItem('CalendarTasks');
+                scheduleTasks = JSON.parse(str);
+            }
+            for (let i = 0; i < scheduleTasks.length; i++) {
+                Data_Add(scheduleTasks[i][0], scheduleTasks[i][1]);
+            }
+        }
+
+        function ButtonDelete_Click() {
+            DeleteItem(CurrentEditItem);
+            //Data_Save();
+        }
+
+        function DeleteItem(item) {
+            //找到當前筆數
+            var n = scheduleItems.indexOf(item);
+            //刪除該筆資料
+            scheduleItems.splice(n, 1);
+        }
+        function ButtonUpdate_Click() {
+            var NewItem =
+                [
+                    $('#EditField_Date').val(),
+                    $('#EditField_Task').val()
+
+                ];
+            //找到當前筆數
+            var n = scheduleItems.indexOf(CurrentEditItem);
+            //置換data
+            scheduleItems[n] = NewItem;
+
+            Data_Refresh();
+            Data_Save();
+        }
+
+        function Data_Refresh() {
+            this.td.clear();
+            DataTable.rows.add(dat);
+            DataTable.draw();
+            $(`#${thisID}`).append(`<br/>${thisTask}`);
+        }
+
     </script>
+
+    <style>
+        #calendar-body td {
+            width: 150px;
+            height: 150px;
+        }
+    </style>
 
 </head>
 
@@ -115,10 +220,11 @@
 
 <body>
 
-    <div class="container mt-5">
+    <div class="container mt-2">
         <div class="form-inline">
 
-            <button class="btn btn-outline-primary col-3" id="addtask" >新增事項</button>
+            <button class="btn btn-outline-primary col-3" id="addtask" data-toggle="modal"
+                data-target="#ModalAddTask">新增事項</button>
 
 
         </div>
@@ -150,6 +256,64 @@
             </div>
             <br />
 
+        </div>
+    </div>
+
+    <!-- Modal: ModalAddData -->
+    <div class="modal fade" id="ModalAddTask" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">新增代辦事項</h4>
+                    <button type="button" class="close" data-dismiss="modal">×</button>
+                </div>
+                <div class="modal-body">
+
+                    <form>
+                        <div class="form-group">
+                            <label>日期</label>
+                            <input type="date" class="form-control" id="field_Date">
+                        </div>
+                        <div class="form-group">
+                            <label>代辦事項</label>
+                            <input type="textarea" class="form-control" id="field_Task" placeholder="請輸入代辦事項">
+                        </div>
+                    </form>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" id="ButtonAddTask" class="btn btn-outline-success">新增</button>
+                    <button type="button" class="btn btn-outline-danger" data-dismiss="modal">關閉</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- The Modal : ModalEdit-->
+    <div class="modal fade" id="ModalEdit">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">修改或刪除</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <form>
+                        <label>日期</label>
+                        <input type="text" class="form-control" id="EditField_Date" readonly>
+                        <label>代辦事項</label>
+                        <input type="textarea" class="form-control" id="EditField_Task">
+
+                    </form>
+                </div>
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button id="ButtonUpdate" type="button" class="btn btn-success" data-dismiss="modal">儲存</button>
+                    <button id="ButtonDelete" type="button" class="btn btn-danger" data-dismiss="modal">刪除</button>
+                </div>
+            </div>
         </div>
     </div>
 
